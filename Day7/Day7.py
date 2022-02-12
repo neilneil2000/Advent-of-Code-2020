@@ -14,7 +14,7 @@ def read_file(filename: str) -> List[str]:
 
 
 def main():
-    file_entries = read_file("DaySevenInput")
+    file_entries = read_file("Day7\DaySevenInput")
     my_rules = BagRules(file_entries)
     my_rules.initialise()
 
