@@ -3,21 +3,15 @@ class DataPort:
 
     def __init__(self, preamble_length: int) -> None:
         self.preamble_length = preamble_length
-        self.window = []
+        self.history = []
 
     def assess_new_number(self, number: int) -> bool:
         """Handles new number and returns False if doesn't confirm to XMAS sum protocol"""
-        if len(self.window) == self.preamble_length:
+        validity = True
+        if self.preamble_complete:
             validity = self.is_valid(number)
-            self.window.append(number)
-            self.window.pop(0)
-            return validity
-        self.window.append(number)
-        return True
-
-    def update_history(self, number: int) -> None:
-        """Update log of previously received numbers"""
-        self.window.append(number)
+        self.history.append(number)
+        return validity
 
     def is_valid(self, number: int) -> bool:
         """Returns true if number is a valid sum of two previous digits"""
@@ -26,3 +20,15 @@ class DataPort:
             if remainder != value and remainder in self.window:
                 return True
         return False
+
+    @property
+    def preamble_complete(self):
+        if len(self.history) >= self.preamble_length:
+            return True
+        return False
+
+    @property
+    def window(self):
+        if len(self.history) < self.preamble_length:
+            raise ValueError("Window only valid after preamble is complete")
+        return self.history[-self.preamble_length :]
