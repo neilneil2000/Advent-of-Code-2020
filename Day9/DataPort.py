@@ -1,3 +1,6 @@
+from typing import List
+
+
 class DataPort:
     """Representation of data port implementing XMAS protocol"""
 
@@ -20,6 +23,24 @@ class DataPort:
             if remainder != value and remainder in self.window:
                 return True
         return False
+
+    def find_operands(self, target: int) -> List[int]:
+        for index in range(len(self.history)):
+            operands = self.get_sum_operands(target, index)
+            if operands:
+                return operands
+        return []
+
+    def get_sum_operands(self, target: int, start_index: int) -> List[int]:
+        total = 0
+        index = start_index
+        for index in range(start_index, len(self.history)):
+            total += self.history[index]
+            if total >= target:
+                break
+        if total == target:
+            return self.history[start_index:index]
+        return []
 
     @property
     def preamble_complete(self):

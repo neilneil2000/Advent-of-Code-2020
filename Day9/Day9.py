@@ -17,6 +17,10 @@ def main():
     for number in input_values:
         if not AeroplanePort.assess_new_number(number):
             print(f"Value {number} is not valid")
+            break
+    operands = AeroplanePort.find_operands(number)
+    weakness = min(operands) + max(operands)
+    print(f"Encrption Weakness is {weakness}")
 
 
 if __name__ == "__main__":
