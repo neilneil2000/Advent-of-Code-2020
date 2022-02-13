@@ -1,7 +1,6 @@
 class Adapters:
     def __init__(self) -> None:
         self.adapter_list = [0]
-        self.adapter_tree = {}
         self.reverse_tree = {}
         self.paths_from = {}
 
@@ -16,13 +15,6 @@ class Adapters:
     def add_device_joltage(self):
         self.adapter_list.append(max(self.adapter_list) + 3)
 
-    def create_tree(self):
-        for adapter in self.adapter_list:
-            self.adapter_tree[adapter] = []
-            for other_adapter in self.adapter_list:
-                if 1 <= other_adapter - adapter <= 3:
-                    self.adapter_tree[adapter].append(other_adapter)
-
     def create_reverse_tree(self):
         for adapter in self.adapter_list:
             self.reverse_tree[adapter] = []
@@ -31,8 +23,7 @@ class Adapters:
                     self.reverse_tree[adapter].append(other_adapter)
 
     def count_combos(self):
-        if not self.adapter_tree:
-            self.create_tree()
+        if not self.reverse_tree:
             self.create_reverse_tree()
             self.paths_from[0] = 1
         for key, valid_adpaters in self.reverse_tree.items():
