@@ -1,3 +1,10 @@
+TEST_INPUT = """F10
+N3
+F7
+R90
+F11
+"""
+
 PUZZLE_INPUT = """W3
 R180
 S1

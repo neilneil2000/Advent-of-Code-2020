@@ -21,9 +21,9 @@ class Ship:
 
     direction_degrees = {0: "E", 90: "S", 180: "W", 270: "N"}
 
-    def __init__(self):
-        self.north = 0
-        self.east = 0
+    def __init__(self, north=0, east=0):
+        self.north = north
+        self.east = east
         self.orientation = 0  # degrees clockwise from east
 
     @property
@@ -39,10 +39,10 @@ class Ship:
             self.orientation = (self.orientation - degrees) % 360
 
     def process_instruction(self, instruction: str):
-        type = Direction[instruction[0]]
+        """Process raw instruction"""
+        instruction_type = Direction[instruction[0]]
         value = int(instruction[1:])
-        self.move(value, type)
-        pass
+        self.move(value, instruction_type)
 
     def move(self, distance: int, direction: Direction):
         """Move ship distance in direction"""
