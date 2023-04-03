@@ -16,8 +16,7 @@ class Dock_v2:
         ]
         for i in range(2 ** len(floaters)):
             total = 0
-            format_string = f"0{len(floaters)}b"
-            for a, b in zip(format(i, format_string), floaters):
+            for a, b in zip(format(i, f"0{len(floaters)}b"), floaters):
                 total += int(a) * 2**b
             addresses.append(base_address + total)
 
