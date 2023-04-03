@@ -1,31 +1,43 @@
-from typing import Tuple
+from typing import List, Tuple
 
 
 class WaitingArea:
+    """Waiting area in airport lounge"""
 
     EMPTY_SEAT = "L"
     OCCUPIED_SEAT = "#"
     FLOOR = "."
 
-    def __init__(self, seats: list):
+    def __init__(self, seats: List[str]):
         self.seating = seats
-        self.rows = len(self.seating)
-        self.columns = len(self.seating[0])
         self.last_step_changes = None
 
+    @property
+    def rows(self) -> int:
+        """Number of rows of seating"""
+        return len(self.seating)
+
+    @property
+    def columns(self) -> int:
+        """Columns of seating in row 0"""
+        return len(self.seating[0])
+
+    @property
+    def occupied_seats(self) -> int:
+        """Number of occupied seats"""
+        seats = 0
+        for row in self.seating:
+            for space in row:
+                if space == self.OCCUPIED_SEAT:
+                    seats += 1
+        return seats
+
     def print_seating(self):
+        """Display grid of seat occupation"""
         for row in self.seating:
             for space in row:
                 print(space, end="")
             print()
-
-    def count_occupied_seats(self)-> int:
-        occupied_seats = 0
-        for row in self.seating:
-            for space in row:
-                if space == self.OCCUPIED_SEAT:
-                    occupied_seats += 1
-        return occupied_seats
 
     def adjacent_occupants(self, seat_location: Tuple[int, int]) -> int:
         """Check whether seats nearby are occupied and returns total of occupied seats"""
@@ -41,11 +53,13 @@ class WaitingArea:
             (row + 1, column + 1),
         }
         adjacencies = set()
+        rows = self.rows
+        columns = self.columns
         for space in possible_adjacencies:
             row, column = space
             if (
-                0 <= row < self.rows
-                and 0 <= column < self.columns
+                0 <= row < rows
+                and 0 <= column < columns
                 and self.seating[row][column] == self.OCCUPIED_SEAT
             ):
                 adjacencies.add(space)
