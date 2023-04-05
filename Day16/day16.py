@@ -18,11 +18,11 @@ def process_rules(rules: Dict[str, str]) -> Dict[str, Set[int]]:
 
 
 def process_tickets(tickets: str):
+    """Process text based tickets into useable list of tickets"""
     processed_tickets = []
     for ticket in tickets.splitlines():
         ticket = ticket.split(",")
         processed_tickets.append(list(map(int, ticket)))
-
     return processed_tickets
 
 
