@@ -53,9 +53,13 @@ def main():
     my_ticket = YOUR_TICKET.split(",")
 
     answer = 1
-    for name, number in my_mapper.mapping.items():
-        if name.startswith("departure"):
-            answer *= int(my_ticket[list(number)[0]])
+    departure_fields = {
+        name: number
+        for (name, number) in my_mapper.mapping.items()
+        if name.startswith("departure")
+    }
+    for number in departure_fields.values():
+        answer *= int(my_ticket[list(number)[0]])
     print(answer)
 
 
